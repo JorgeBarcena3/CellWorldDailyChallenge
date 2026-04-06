@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="com.cellworld.dailychallenge" version="1.0.0"
+  xmlns="http://www.w3.org/ns/widgets"
+  xmlns:cdv="http://cordova.apache.org/ns/1.0">
+
+  <name>CellWorld Daily</name>
+  <description>A daily cellular automaton challenge game.</description>
+  <author email="dev@cellworld.app" href="https://cellworld.app">CellWorld Team</author>
+
+  <!-- Point to the frontend folder -->
+  <content src="index.html" />
+
+  <!-- Security policy: allow API calls to backend -->
+  <access origin="*" />
+  <allow-intent href="http://*/*" />
+  <allow-intent href="https://*/*" />
+  <allow-navigation href="*" />
+
+  <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id"
+             android:value="cellworld_daily" />
+
+  <!-- Preferences -->
+  <preference name="DisallowOverscroll" value="true" />
+  <preference name="android-minSdkVersion" value="22" />
+  <preference name="android-targetSdkVersion" value="34" />
+  <preference name="StatusBarOverlaysWebView" value="false" />
+  <preference name="StatusBarBackgroundColor" value="#0b0f1a" />
+  <preference name="StatusBarStyle" value="lightcontent" />
+  <preference name="FullScreen" value="false" />
+  <preference name="SplashScreen" value="screen" />
+  <preference name="SplashScreenDelay" value="2000" />
+  <preference name="AutoHideSplashScreen" value="true" />
+  <preference name="Orientation" value="portrait" />
+  <preference name="BackgroundColor" value="0xff0b0f1a" />
+
+  <!-- Plugins -->
+  <plugin name="cordova-plugin-whitelist" />
+  <plugin name="cordova-plugin-local-notification" />
+  <plugin name="cordova-plugin-firebase-messaging" />
+  <plugin name="cordova-plugin-splashscreen" />
+
+  <platform name="android">
+    <icon src="res/icon/android/icon-192.png" density="xxxhdpi" />
+    <splash src="res/screen/android/splash-1280x1920.png" />
+    <preference name="android-targetSdkVersion" value="34" />
+  </platform>
+</widget>

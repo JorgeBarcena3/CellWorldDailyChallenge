@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0b0f1a" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="description" content="CellWorld Daily Challenge — El autómata celular diario. Juega, evoluciona y conquista el ranking." />
+
+  <title>CellWorld Daily</title>
+
+  <!-- Google Fonts preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Favicon (inline SVG data-URI) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0f1a'/%3E%3Crect x='6' y='6' width='8' height='8' rx='1' fill='%2300ff66'/%3E%3Crect x='18' y='6' width='8' height='8' rx='1' fill='%2300ff6688'/%3E%3Crect x='12' y='14' width='8' height='8' rx='1' fill='%2300ff66'/%3E%3Crect x='6' y='18' width='8' height='8' rx='1' fill='%2300ff6888'/%3E%3Crect x='18' y='18' width='8' height='8' rx='1' fill='%2300ff66'/%3E%3C/svg%3E" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!--
+    ╔═══════════════════════════════════════════════════════════════╗
+    ║  API Base URL — change this to your production backend URL   ║
+    ╚═══════════════════════════════════════════════════════════════╝
+  -->
+  <script>
+    window.CELLWORLD_API = 'https://geneolegacy.com/CellWorld/api';
+  </script>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ════════════════════════════════════════════════════
+       SPLASH SCREEN
+  ════════════════════════════════════════════════════ -->
+  <section id="screen-splash" class="screen active" aria-label="Cargando CellWorld">
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100dvh; gap:0;">
+
+      <div class="splash-logo">
+        <!-- 4×4 animated cell grid (JS will flicker cells) -->
+        <div class="splash-icon" id="splash-icon">
+          <!-- 16 cells; alive class toggled dynamically -->
+          <div class="splash-cell alive" id="si-0"></div>
+          <div class="splash-cell"      id="si-1"></div>
+          <div class="splash-cell alive" id="si-2"></div>
+          <div class="splash-cell"      id="si-3"></div>
+          <div class="splash-cell"      id="si-4"></div>
+          <div class="splash-cell alive" id="si-5"></div>
+          <div class="splash-cell alive" id="si-6"></div>
+          <div class="splash-cell"      id="si-7"></div>
+          <div class="splash-cell alive" id="si-8"></div>
+          <div class="splash-cell alive" id="si-9"></div>
+          <div class="splash-cell"      id="si-10"></div>
+          <div class="splash-cell alive" id="si-11"></div>
+          <div class="splash-cell"      id="si-12"></div>
+          <div class="splash-cell alive" id="si-13"></div>
+          <div class="splash-cell"      id="si-14"></div>
+          <div class="splash-cell alive" id="si-15"></div>
+        </div>
+
+        <h1 class="splash-title">CELLWORLD</h1>
+        <p class="splash-sub">Daily Challenge</p>
+
+        <div class="splash-progress">
+          <div id="splash-progress-bar"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════
+       DAILY CHALLENGE SCREEN
+  ════════════════════════════════════════════════════ -->
+  <section id="screen-daily" class="screen" aria-label="Desafío Diario" aria-hidden="true">
+    <div class="screen-inner">
+
+      <!-- Header -->
+      <header class="daily-header">
+        <p id="daily-date" class="dim-text">Cargando...</p>
+        <h1 id="daily-title" class="neon-text flicker">DESAFÍO DIARIO</h1>
+      </header>
+
+      <!-- Completed badge -->
+      <div id="daily-completed-badge" role="status">✅ Ya completaste el desafío de hoy</div>
+
+      <!-- Animated preview -->
+      <div class="daily-preview-wrap">
+        <canvas id="daily-preview-canvas" aria-label="Vista previa del autómata celular"></canvas>
+        <div class="daily-preview-badge">PREVIEW</div>
+      </div>
+
+      <!-- Info grid -->
+      <div class="daily-info-grid">
+        <div class="daily-info-item">
+          <span class="info-label">Objetivo</span>
+          <span class="info-value neon" id="daily-objective">80 vivas</span>
+        </div>
+        <div class="daily-info-item">
+          <span class="info-label">Dificultad</span>
+          <span class="info-value" id="daily-difficulty">Medium</span>
+        </div>
+        <div class="daily-info-item">
+          <span class="info-label">Nacimiento</span>
+          <span class="info-value" id="daily-rules-birth">B: 3</span>
+        </div>
+        <div class="daily-info-item">
+          <span class="info-label">Supervivencia</span>
+          <span class="info-value" id="daily-rules-survive">S: 2,3</span>
+        </div>
+      </div>
+
+      <!-- Mini leaderboard -->
+      <div class="card daily-lb-section">
+        <h3>🏆 TOP HOY</h3>
+        <div id="daily-leaderboard" role="list" aria-label="Top puntuaciones del día">
+          <p class="lb-empty">Cargando...</p>
+        </div>
+      </div>
+
+      <!-- Play button -->
+      <button id="btn-daily-play" class="btn btn-primary" aria-label="Comenzar el desafío diario">
+        ▶ JUGAR
+      </button>
+
+      <div style="display:flex; gap: 15px; margin-top:20px; width:100%; max-width:400px; margin-left:auto; margin-right:auto;">
+        <button id="btn-random-challenge" class="btn btn-secondary" style="flex:1; display:none;" aria-label="Jugar un desafío aleatorio">🎲 Práctica Aleatoria</button>
+        <button id="btn-replay-tutorial" class="btn btn-ghost" style="flex:1;" aria-label="Ver el tutorial de nuevo">📖 Ver Tutorial</button>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════
+       GAME SCREEN
+  ════════════════════════════════════════════════════ -->
+  <section id="screen-game" class="screen" aria-label="Juego" aria-hidden="true">
+    <div class="screen-inner">
+
+      <!-- HUD row -->
+      <div class="game-hud" role="status" aria-live="polite" aria-label="Estado del juego">
+        <div class="hud-item" id="hud-generation" aria-label="Generaciones restantes">
+          <span class="hud-label">Generaciones restantes</span>
+          <span class="hud-value">0</span>
+        </div>
+        <div class="hud-item" id="hud-alive" aria-label="Células vivas">
+          <span class="hud-label">Vivas</span>
+          <span class="hud-value">0</span>
+        </div>
+        <div class="hud-item hud-score-item">
+          <span class="hud-label">Score</span>
+          <span class="hud-value neon-text" id="hud-score">0</span>
+        </div>
+        <div class="hud-item" id="hud-target" aria-label="Objetivo">
+          <span class="hud-label">Obj.</span>
+          <span class="hud-value">80</span>
+        </div>
+      </div>
+
+      <!-- Alive progress bar -->
+      <div id="hud-alive-bar"
+           role="progressbar"
+           aria-label="Células vivas vs objetivo"
+           aria-valuemin="0"
+           aria-valuenow="0"
+           aria-valuemax="80">
+      </div>
+
+      <!-- Cell limit banner -->
+      <div id="cell-limit-banner" aria-live="polite">🧬 Celdas: 0 / 30</div>
+
+      <!-- Canvas -->
+      <div class="canvas-wrap">
+        <canvas id="game-canvas"
+                aria-label="Cuadrícula del autómata celular. Toca para activar células."
+                role="img">
+        </canvas>
+      </div>
+
+      <!-- Controls -->
+      <div class="game-controls">
+        <button id="btn-play-pause" class="btn btn-primary" aria-label="Iniciar o pausar evolución">
+          ▶ PLAY
+        </button>
+        <button id="btn-reset"      class="btn btn-ghost"   aria-label="Reiniciar cuadrícula">
+          ↺ RESET
+        </button>
+        <button id="btn-info"       class="btn btn-ghost"   aria-label="Ver reglas y comportamiento">
+          ℹ️ INFO
+        </button>
+        <button id="btn-submit"     class="btn btn-ghost"   aria-label="Finalizar y enviar puntuación" style="grid-column: 1 / -1;">
+          ✓ ENVIAR SCORE
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════
+       RESULT SCREEN
+  ════════════════════════════════════════════════════ -->
+  <section id="screen-result" class="screen" aria-label="Resultado" aria-hidden="true">
+    <div class="screen-inner">
+
+      <header class="result-header">
+        <h1 class="neon-text">¡RESULTADO!</h1>
+      </header>
+
+      <!-- Big score -->
+      <div class="result-score-display">
+        <p class="result-score-label">PUNTUACIÓN</p>
+        <div id="result-score" aria-live="polite">0</div>
+      </div>
+
+      <!-- Stat breakdown -->
+      <div class="result-stats">
+        <div class="result-stat">
+          <div class="result-stat-label">Generaciones</div>
+          <div class="result-stat-value" id="result-generation">0</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-label">Células vivas</div>
+          <div class="result-stat-value" id="result-alive">0</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-label">Objetivo</div>
+          <div class="result-stat-value" id="result-target">80</div>
+        </div>
+      </div>
+
+      <!-- Submit status -->
+      <p id="result-submit-status" aria-live="polite"></p>
+
+      <!-- Full leaderboard -->
+      <div class="card">
+        <h3 style="margin-bottom: 12px; font-size: 0.7rem; letter-spacing:0.2em; color: var(--text-dim);">
+          🏆 RANKING DEL DÍA
+        </h3>
+        <div id="result-leaderboard" role="list" aria-label="Clasificación del día">
+          <p class="lb-empty">Cargando ranking...</p>
+        </div>
+      </div>
+
+      <!-- Share (placeholder for native share API) -->
+      <button id="btn-share" class="btn btn-ghost btn-sm" aria-label="Compartir resultado"
+              onclick="if(navigator.share){navigator.share({title:'CellWorld Daily',text:`¡Hice ${document.getElementById('result-score').textContent} puntos! 🧬`})}">
+        ↗ COMPARTIR
+      </button>
+
+      <button id="btn-result-back" class="btn btn-primary" aria-label="Volver al inicio">
+        ↩ VOLVER
+      </button>
+
+    </div>
+  </section>
+
+</div><!-- /#app -->
+
+
+<!-- ─── Scripts (ES Modules) ──────────────────────────────────────────────── -->
+<script type="module">
+  import { App } from './ui.js?v=2';
+
+  // Animate the 4×4 splash icon with a mini Conway step
+  (function animateSplashIcon() {
+    const cells = [
+      [1,0,1,0],
+      [0,1,1,0],
+      [1,1,0,1],
+      [0,1,0,1]
+    ];
+    function step() {
+      const size = 4;
+      const next = Array.from({length:size}, () => new Array(size).fill(0));
+      for (let r=0;r<size;r++) for (let c=0;c<size;c++) {
+        let n=0;
+        for (let dr=-1;dr<=1;dr++) for (let dc=-1;dc<=1;dc++) {
+          if (dr===0&&dc===0) continue;
+          n += cells[(r+dr+size)%size][(c+dc+size)%size];
+        }
+        next[r][c] = cells[r][c] ? (n===2||n===3 ? 1 : 0) : (n===3 ? 1 : 0);
+      }
+      for (let r=0;r<size;r++) for (let c=0;c<size;c++) cells[r][c] = next[r][c];
+      for (let i=0;i<size*size;i++) {
+        const el = document.getElementById(`si-${i}`);
+        if (el) el.classList.toggle('alive', !!cells[Math.floor(i/size)][i%size]);
+      }
+    }
+    setInterval(step, 450);
+  })();
+
+  // Boot the app
+  const app = new App();
+
+  // Async load Firebase Analytics
+  import('./firebase-config.js?v=2').then(m => m.initFirebase()).catch(e => console.warn('Firebase init error', e));
+
+  // Expose for Cordova deviceready event
+  window._cwApp = app;
+
+  if (window.cordova) {
+    document.addEventListener('deviceready', () => app.boot(), false);
+  } else {
+    app.boot();
+  }
+</script>
+
+<!-- Cordova bridge (only loaded in Cordova builds) -->
+<script>
+  if (window.cordova === undefined) {
+    // No-op stub so cordova references don't throw in browser
+    window.cordova = null;
+  }
+</script>
+
+</body>
+</html>
