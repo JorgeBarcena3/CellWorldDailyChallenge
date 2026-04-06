@@ -168,6 +168,7 @@ export class GameEngine {
       rules,
       playerId:       null,
       score:          0,
+      bestGrid:       null,
       finished:       false,
       tickMs:         TICK_MS_NORMAL,
       _seed:          seed
@@ -195,6 +196,12 @@ export class GameEngine {
   /** Start/resume the evolution loop */
   play() {
     if (this.state.finished || this.state.running) return;
+
+    // Capture starting board as 'bestGrid' if none exists yet
+    if (this.state.bestGrid === null && this.state.alive > 0) {
+      this.state.bestGrid = this.state.grid.map(row => new Uint8Array(row));
+    }
+
     this.state.running = true;
     this._scheduleNextTick();
     this._emit(this.onChange);
@@ -221,6 +228,12 @@ export class GameEngine {
     if (this.state.running) return;
     this.state.grid = toggleCell(this.state.grid, row, col);
     this.state.alive = countAlive(this.state.grid);
+
+    // Update bestGrid even during manual placement so the snapshot is never empty
+    if (this.state.bestGrid === null || this.state.alive > 0) {
+       this.state.bestGrid = this.state.grid.map(row => new Uint8Array(row));
+    }
+    
     // Note: Score is deliberately not updated here to prevent players from buying 75% of the grid with ads and claiming that as their score.
     this._emit(this.onTick);
     this._emit(this.onChange);
@@ -270,7 +283,12 @@ export class GameEngine {
     this.state.grid       = nextGeneration(this.state.grid, this.state.rules);
     this.state.generation += 1;
     this.state.alive      = countAlive(this.state.grid);
-    this.state.score      = Math.max(this.state.score, this.state.alive);
+    
+    // Track best state snapshot
+    if (this.state.alive > this.state.score || this.state.bestGrid === null) {
+      this.state.score = this.state.alive;
+      this.state.bestGrid = this.state.grid.map(row => new Uint8Array(row));
+    }
 
     this._emit(this.onTick);
 

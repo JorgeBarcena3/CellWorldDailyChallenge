@@ -1,12 +1,7 @@
-'use strict';
-/**
- * texts.controller.js
- * GET /texts?lang=es  →  returns UI text strings
- */
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../backend/.env') });
+const { db } = require('../backend/services/firebase.service');
 
-const { db } = require('../services/firebase.service');
-
-// Built-in fallback texts (bilingual)
 const DEFAULT_TEXTS = {
   es: {
     lang: 'es',
@@ -76,7 +71,7 @@ const DEFAULT_TEXTS = {
       no_scores: 'Be the first to play!'
     },
     game: {
-      generation: 'Generation',
+      generation: 'Generation left',
       alive: 'Alive',
       target: 'Target',
       pause_button: 'PAUSE',
@@ -118,26 +113,22 @@ const DEFAULT_TEXTS = {
   }
 };
 
-async function getTexts(req, res, next) {
-  try {
-    const lang = (req.query.lang === 'en') ? 'en' : 'es';
-
-    if (db) {
-      try {
-        const doc = await db.collection('texts').doc(lang).get();
-        if (doc.exists) {
-          return res.json({ success: true, data: doc.data() });
-        }
-      } catch (err) {
-        console.warn('[TextsController] Firestore error — using defaults:', err.message);
-      }
-    }
-
-    // Return built-in defaults
-    res.json({ success: true, data: DEFAULT_TEXTS[lang], _fallback: true });
-  } catch (err) {
-    next(err);
+async function run() {
+  console.log('Uploading texts to Firestore...');
+  if (!db) {
+    console.error('Firebase DB not initialized!');
+    process.exit(1);
   }
+
+  for (const lang of Object.keys(DEFAULT_TEXTS)) {
+    await db.collection('texts').doc(lang).set(DEFAULT_TEXTS[lang]);
+    console.log(`Uploaded language: ${lang}`);
+  }
+  console.log('Done.');
+  process.exit(0);
 }
 
-module.exports = { getTexts };
+run().catch(err => {
+  console.error(err);
+  process.exit(1);
+});

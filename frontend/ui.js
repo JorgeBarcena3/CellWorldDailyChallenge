@@ -4,10 +4,10 @@
  * Imports the GameEngine from game.js.
  */
 
-import { GameEngine, seedGrid, countAlive } from './game.js?v=2';
-import { getConfig, getTexts, getLeaderboard, submitScore } from './api.js?v=2';
-import { Tutorial } from './tutorial.js?v=2';
-import { initNotifications, markChallengeCompleted, isTodayCompleted } from './notifications.js?v=2';
+import { GameEngine, seedGrid, countAlive } from './game.js?v=11';
+import { getConfig, getTexts, getLeaderboard, submitScore } from './api.js?v=11';
+import { Tutorial } from './tutorial.js?v=11';
+import { initNotifications, markChallengeCompleted, isTodayCompleted } from './notifications.js?v=11';
 
 // ─── Cell placement limit (freemium) ─────────────────────────────────────────
 // The daily challenge defines how many cells can be placed initially (config.initialCells).
@@ -45,7 +45,17 @@ class CanvasRenderer {
 
   _resize() {
     const container = this.canvas.parentElement;
-    const dim = container ? Math.min(container.clientWidth, container.clientHeight, window.innerWidth - 16) : 360;
+    let dim = container ? Math.min(container.clientWidth, container.clientHeight, window.innerWidth - 16) : 360;
+
+    // Hardcode for the fixed result snapshot board
+    if (this.canvas.id === 'result-best-board') {
+      dim = 180;
+    } else if (dim <= 0 && this.canvas.width > 0) {
+      dim = this.canvas.width;
+    } else if (dim <= 0) {
+      dim = 360;
+    }
+
     this.canvas.width  = dim;
     this.canvas.height = dim;
     this.cellSize = dim / this.size;
@@ -88,6 +98,14 @@ class CanvasRenderer {
 
         ctx.shadowBlur = 0;
       }
+    }
+
+    // Diagnostic indicator if the board remains empty
+    if (countAlive(grid) === 0 && this.canvas.id === 'result-best-board') {
+      ctx.strokeStyle = 'rgba(255, 0, 0, 0.4)';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(canvas.width, canvas.height); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(canvas.width, 0); ctx.lineTo(0, canvas.height); ctx.stroke();
     }
   }
 }
@@ -162,7 +180,7 @@ function startPreviewLoop(canvas, config) {
   }
 
   function tick() {
-    import('./game.js').then(({ nextGeneration, seedGrid }) => {
+    import('./game.js?v=11').then(({ nextGeneration, seedGrid }) => {
       grid = nextGeneration(grid, config.rules);
       renderer.draw(grid);
 
@@ -636,6 +654,31 @@ export class App {
     safeText('result-generation', state.generation);
     safeText('result-alive',      state.alive);
     safeText('result-target',     cfg.target || 80);
+
+    // Raw-API snap for peak snapshot (bypass abstraction for mobile compatibility)
+    const snapshotCanvas = document.getElementById('result-best-board');
+    if (snapshotCanvas) {
+      const g = state.bestGrid || this.engine?.state?.bestGrid || state.grid;
+      const gs = g.length;
+      setTimeout(() => {
+        const ctx = snapshotCanvas.getContext('2d');
+        if (!ctx) return;
+        const dim = 140;
+        snapshotCanvas.width = dim;
+        snapshotCanvas.height = dim;
+        const cs = dim / gs;
+        ctx.clearRect(0, 0, dim, dim);
+        for (let r = 0; r < gs; r++) {
+          for (let c = 0; c < gs; c++) {
+            const age = g[r][c];
+            if (!age) continue;
+            const h = Math.max(0, 144 - (age - 1) * 12);
+            ctx.fillStyle = `hsl(${h}, 100%, 55%)`;
+            ctx.fillRect(c * cs, r * cs, cs - (cs * 0.1), cs - (cs * 0.1));
+          }
+        }
+      }, 200);
+    }
 
     // Animate score count-up
     this._countUp('result-score', 0, state.score, 1200);

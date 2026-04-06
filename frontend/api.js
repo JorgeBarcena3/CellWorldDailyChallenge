@@ -196,7 +196,7 @@ function _defaultTexts(lang) {
       objective:         isEs ? 'Mantén {{target}} vivas'     : 'Keep {{target}} cells alive',
       play_button:       isEs ? 'JUGAR'                       : 'PLAY',
       difficulty_label:  isEs ? 'Dificultad'                  : 'Difficulty',
-      leaderboard_title: isEs ? 'TOP HOY'                     : "TODAY'S TOP",
+      leaderboard_title: isEs ? 'Clasificación'               : "Classification",
       no_scores:         isEs ? 'Sé el primero en jugar'      : 'Be the first to play!'
     },
     game: {
