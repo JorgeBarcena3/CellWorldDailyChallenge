@@ -4,14 +4,16 @@
  */
 
 const TUTORIAL_KEY  = 'cw_tutorialCompleted';
-const TOTAL_STEPS   = 4;
+const TOTAL_STEPS   = 6;
 
 // Highlight targets per step (CSS selectors into the game screen)
 const HIGHLIGHT_SELECTORS = [
   '#game-canvas',        // step 1: tap to activate cells
-  '#btn-play-pause',     // step 2: press play
-  '#hud-alive-bar',     // step 3: watch alive count
-  '#btn-submit'          // step 4: submit score
+  '#hud-generation',    // step 2: check generations limit
+  '#hud-alive',         // step 3: watch alive count
+  '#btn-info',          // step 4: check rules/info
+  '#btn-play-pause',     // step 5: press play
+  '#btn-submit'          // step 6: submit score
 ];
 
 export class Tutorial {
@@ -90,7 +92,9 @@ export class Tutorial {
       { title: t.step1_title, body: t.step1_body },
       { title: t.step2_title, body: t.step2_body },
       { title: t.step3_title, body: t.step3_body },
-      { title: t.step4_title, body: t.step4_body }
+      { title: t.step4_title, body: t.step4_body },
+      { title: t.step5_title, body: t.step5_body },
+      { title: t.step6_title, body: t.step6_body }
     ];
 
     const { title, body } = steps[this.step] || {};

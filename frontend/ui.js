@@ -4,10 +4,10 @@
  * Imports the GameEngine from game.js.
  */
 
-import { GameEngine, seedGrid, countAlive } from './game.js?v=11';
-import { getConfig, getTexts, getLeaderboard, submitScore } from './api.js?v=11';
-import { Tutorial } from './tutorial.js?v=11';
-import { initNotifications, markChallengeCompleted, isTodayCompleted } from './notifications.js?v=11';
+import { GameEngine, seedGrid, countAlive } from './game.js?v=14';
+import { getConfig, getTexts, getLeaderboard, submitScore } from './api.js?v=14';
+import { Tutorial } from './tutorial.js?v=14';
+import { initNotifications, markChallengeCompleted, isTodayCompleted } from './notifications.js?v=14';
 
 // ─── Cell placement limit (freemium) ─────────────────────────────────────────
 // The daily challenge defines how many cells can be placed initially (config.initialCells).
@@ -180,7 +180,7 @@ function startPreviewLoop(canvas, config) {
   }
 
   function tick() {
-    import('./game.js?v=11').then(({ nextGeneration, seedGrid }) => {
+    import('./game.js?v=14').then(({ nextGeneration, seedGrid }) => {
       grid = nextGeneration(grid, config.rules);
       renderer.draw(grid);
 
@@ -307,7 +307,7 @@ export class App {
     const tutorialBtn = document.getElementById('btn-replay-tutorial');
     if (tutorialBtn) {
       tutorialBtn.onclick = () => {
-        localStorage.removeItem('cw_tutorial_done');
+        Tutorial.reset();
         this._startGame();
       };
     }

@@ -1,0 +1,47 @@
+{
+  "lang": "es",
+  "daily_challenge": {
+    "title": "Desafío Diario",
+    "objective": "Mantén {{target}} vivas",
+    "play_button": "JUGAR",
+    "difficulty_label": "Dificultad",
+    "leaderboard_title": "Clasificación",
+    "no_scores": "Sé el primero en jugar"
+  },
+  "game": {
+    "generation": "Generaciones restantes",
+    "alive": "Vivas",
+    "target": "Objetivo",
+    "pause_button": "PAUSA",
+    "play_button": "PLAY",
+    "reset_button": "RESET",
+    "submit_button": "ENVIAR SCORE"
+  },
+  "result": {
+    "title": "¡Resultado!",
+    "score_label": "Puntuación",
+    "play_again": "Jugar de nuevo",
+    "leaderboard_title": "Clasificación"
+  },
+  "tutorial": {
+    "step1_title": "Activa células",
+    "step1_body": "Toca las casillas del tablero para activar células",
+    "step2_title": "Generaciones",
+    "step2_body": "Tienes un número limitado de generaciones antes de que termine el juego",
+    "step3_title": "Alcanza el objetivo",
+    "step3_body": "Alcanza {{target}} células vivas para ganar puntos de bonus",
+    "step4_title": "Reglas del día",
+    "step4_body": "Pulsa INFO para ver cómo nacen y mueren las células hoy",
+    "step5_title": "Inicia la evolución",
+    "step5_body": "Pulsa PLAY para que la simulación empiece a correr",
+    "step6_title": "Envía tu puntuación",
+    "step6_body": "Al terminar, pulsa ENVIAR SCORE para el ranking",
+    "next_button": "Siguiente",
+    "finish_button": "Empezar"
+  },
+  "errors": {
+    "load_failed": "Error cargando datos.",
+    "submit_failed": "Error enviando puntuación.",
+    "invalid_score": "Puntuación inválida."
+  }
+}

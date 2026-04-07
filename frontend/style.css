@@ -654,8 +654,7 @@ h3 { font-size: clamp(0.9rem, 3.5vw, 1.2rem); font-weight: 600; }
 #tutorial-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(11, 15, 26, 0.82);
-  backdrop-filter: blur(2px);
+  background: rgba(11, 15, 26, 0.65);
 }
 
 #tutorial-spotlight {
@@ -670,17 +669,16 @@ h3 { font-size: clamp(0.9rem, 3.5vw, 1.2rem); font-weight: 600; }
 
 #tutorial-card {
   position: fixed;
-  bottom: max(var(--gap-xl), env(safe-area-inset-bottom, 40px));
-  left: var(--gap-md);
-  right: var(--gap-md);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - var(--gap-md) * 2);
   max-width: 440px;
-  margin: 0 auto;
   background: rgba(12, 20, 14, 0.95);
   border: 1px solid rgba(0,255,102,0.3);
   border-radius: var(--r-lg);
   padding: var(--gap-lg);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 -4px 40px rgba(0,255,102,0.15);
+  box-shadow: 0 0 60px rgba(0,255,102,0.15), 0 24px 60px rgba(0,0,0,0.6);
   z-index: 1002;
 }
 

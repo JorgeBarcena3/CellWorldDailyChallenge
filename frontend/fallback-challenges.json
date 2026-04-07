@@ -1,0 +1,621 @@
+[
+  {
+    "date": "2026-04-06",
+    "gridSize": 10,
+    "initialCells": 12,
+    "maxGenerations": 120,
+    "difficulty": "easy",
+    "rules": {
+      "birth": [
+        3
+      ],
+      "survive": [
+        2,
+        3
+      ]
+    },
+    "target": 34,
+    "seed": 840859,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-07",
+    "gridSize": 12,
+    "initialCells": 15,
+    "maxGenerations": 120,
+    "difficulty": "medium",
+    "rules": {
+      "birth": [
+        3
+      ],
+      "survive": [
+        2,
+        3,
+        8
+      ]
+    },
+    "target": 56,
+    "seed": 944442,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-08",
+    "gridSize": 13,
+    "initialCells": 12,
+    "maxGenerations": 120,
+    "difficulty": "medium",
+    "rules": {
+      "birth": [
+        2,
+        3
+      ],
+      "survive": [
+        2,
+        3
+      ]
+    },
+    "target": 54,
+    "seed": 746102,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-09",
+    "gridSize": 12,
+    "initialCells": 15,
+    "maxGenerations": 120,
+    "difficulty": "hard",
+    "rules": {
+      "birth": [
+        3,
+        6,
+        8
+      ],
+      "survive": [
+        2,
+        4,
+        5
+      ]
+    },
+    "target": 98,
+    "seed": 24900,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-10",
+    "gridSize": 11,
+    "initialCells": 18,
+    "maxGenerations": 120,
+    "difficulty": "medium",
+    "rules": {
+      "birth": [
+        3
+      ],
+      "survive": [
+        2,
+        3,
+        8
+      ]
+    },
+    "target": 55,
+    "seed": 421449,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-11",
+    "gridSize": 8,
+    "initialCells": 14,
+    "maxGenerations": 120,
+    "difficulty": "easy",
+    "rules": {
+      "birth": [
+        3
+      ],
+      "survive": [
+        2,
+        3
+      ]
+    },
+    "target": 23,
+    "seed": 121099,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-12",
+    "gridSize": 16,
+    "initialCells": 17,
+    "maxGenerations": 120,
+    "difficulty": "hard",
+    "rules": {
+      "birth": [
+        2,
+        3,
+        8
+      ],
+      "survive": [
+        3,
+        4,
+        5
+      ]
+    },
+    "target": 88,
+    "seed": 17022,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-13",
+    "gridSize": 10,
+    "initialCells": 13,
+    "maxGenerations": 120,
+    "difficulty": "easy",
+    "rules": {
+      "birth": [
+        3
+      ],
+      "survive": [
+        2,
+        3
+      ]
+    },
+    "target": 33,
+    "seed": 173128,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-14",
+    "gridSize": 10,
+    "initialCells": 16,
+    "maxGenerations": 120,
+    "difficulty": "medium",
+    "rules": {
+      "birth": [
+        3,
+        6
+      ],
+      "survive": [
+        2,
+        3,
+        6
+      ]
+    },
+    "target": 42,
+    "seed": 158077,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-15",
+    "gridSize": 10,
+    "initialCells": 16,
+    "maxGenerations": 120,
+    "difficulty": "medium",
+    "rules": {
+      "birth": [
+        2,
+        3
+      ],
+      "survive": [
+        2,
+        3
+      ]
+    },
+    "target": 50,
+    "seed": 712561,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-16",
+    "gridSize": 13,
+    "initialCells": 18,
+    "maxGenerations": 120,
+    "difficulty": "hard",
+    "rules": {
+      "birth": [
+        3,
+        6,
+        8
+      ],
+      "survive": [
+        2,
+        4,
+        5
+      ]
+    },
+    "target": 82,
+    "seed": 344502,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-17",
+    "gridSize": 13,
+    "initialCells": 13,
+    "maxGenerations": 120,
+    "difficulty": "medium",
+    "rules": {
+      "birth": [
+        3,
+        7
+      ],
+      "survive": [
+        2,
+        3,
+        4
+      ]
+    },
+    "target": 64,
+    "seed": 204619,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-18",
+    "gridSize": 9,
+    "initialCells": 12,
+    "maxGenerations": 120,
+    "difficulty": "easy",
+    "rules": {
+      "birth": [
+        3,
+        6
+      ],
+      "survive": [
+        2,
+        3
+      ]
+    },
+    "target": 22,
+    "seed": 143806,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-19",
+    "gridSize": 15,
+    "initialCells": 18,
+    "maxGenerations": 120,
+    "difficulty": "hard",
+    "rules": {
+      "birth": [
+        3,
+        5
+      ],
+      "survive": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "target": 92,
+    "seed": 691338,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-20",
+    "gridSize": 9,
+    "initialCells": 11,
+    "maxGenerations": 120,
+    "difficulty": "easy",
+    "rules": {
+      "birth": [
+        3,
+        6
+      ],
+      "survive": [
+        2,
+        3
+      ]
+    },
+    "target": 35,
+    "seed": 506296,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-21",
+    "gridSize": 10,
+    "initialCells": 16,
+    "maxGenerations": 120,
+    "difficulty": "medium",
+    "rules": {
+      "birth": [
+        2,
+        3
+      ],
+      "survive": [
+        2,
+        3
+      ]
+    },
+    "target": 43,
+    "seed": 621796,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-22",
+    "gridSize": 10,
+    "initialCells": 12,
+    "maxGenerations": 120,
+    "difficulty": "medium",
+    "rules": {
+      "birth": [
+        3,
+        7
+      ],
+      "survive": [
+        2,
+        3,
+        4
+      ]
+    },
+    "target": 55,
+    "seed": 742528,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-23",
+    "gridSize": 15,
+    "initialCells": 17,
+    "maxGenerations": 120,
+    "difficulty": "hard",
+    "rules": {
+      "birth": [
+        2,
+        3,
+        8
+      ],
+      "survive": [
+        3,
+        4,
+        5
+      ]
+    },
+    "target": 86,
+    "seed": 594057,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-24",
+    "gridSize": 11,
+    "initialCells": 13,
+    "maxGenerations": 120,
+    "difficulty": "medium",
+    "rules": {
+      "birth": [
+        3,
+        7
+      ],
+      "survive": [
+        2,
+        3,
+        4
+      ]
+    },
+    "target": 58,
+    "seed": 290113,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-25",
+    "gridSize": 10,
+    "initialCells": 11,
+    "maxGenerations": 120,
+    "difficulty": "easy",
+    "rules": {
+      "birth": [
+        3,
+        6
+      ],
+      "survive": [
+        2,
+        3
+      ]
+    },
+    "target": 33,
+    "seed": 48549,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-26",
+    "gridSize": 16,
+    "initialCells": 18,
+    "maxGenerations": 120,
+    "difficulty": "hard",
+    "rules": {
+      "birth": [
+        3,
+        5
+      ],
+      "survive": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "target": 85,
+    "seed": 563923,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-27",
+    "gridSize": 10,
+    "initialCells": 15,
+    "maxGenerations": 120,
+    "difficulty": "easy",
+    "rules": {
+      "birth": [
+        3
+      ],
+      "survive": [
+        2,
+        3
+      ]
+    },
+    "target": 30,
+    "seed": 250776,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-28",
+    "gridSize": 10,
+    "initialCells": 16,
+    "maxGenerations": 120,
+    "difficulty": "medium",
+    "rules": {
+      "birth": [
+        3,
+        6
+      ],
+      "survive": [
+        2,
+        3,
+        6
+      ]
+    },
+    "target": 52,
+    "seed": 211728,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-29",
+    "gridSize": 12,
+    "initialCells": 18,
+    "maxGenerations": 120,
+    "difficulty": "medium",
+    "rules": {
+      "birth": [
+        2,
+        3
+      ],
+      "survive": [
+        2,
+        3
+      ]
+    },
+    "target": 43,
+    "seed": 525096,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-04-30",
+    "gridSize": 13,
+    "initialCells": 20,
+    "maxGenerations": 120,
+    "difficulty": "hard",
+    "rules": {
+      "birth": [
+        3,
+        5
+      ],
+      "survive": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "target": 96,
+    "seed": 370316,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-05-01",
+    "gridSize": 10,
+    "initialCells": 15,
+    "maxGenerations": 120,
+    "difficulty": "medium",
+    "rules": {
+      "birth": [
+        3,
+        7
+      ],
+      "survive": [
+        2,
+        3,
+        4
+      ]
+    },
+    "target": 52,
+    "seed": 857945,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-05-02",
+    "gridSize": 9,
+    "initialCells": 15,
+    "maxGenerations": 120,
+    "difficulty": "easy",
+    "rules": {
+      "birth": [
+        3,
+        6
+      ],
+      "survive": [
+        2,
+        3
+      ]
+    },
+    "target": 27,
+    "seed": 159142,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-05-03",
+    "gridSize": 13,
+    "initialCells": 15,
+    "maxGenerations": 120,
+    "difficulty": "hard",
+    "rules": {
+      "birth": [
+        2,
+        3,
+        8
+      ],
+      "survive": [
+        3,
+        4,
+        5
+      ]
+    },
+    "target": 98,
+    "seed": 893776,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-05-04",
+    "gridSize": 10,
+    "initialCells": 12,
+    "maxGenerations": 120,
+    "difficulty": "easy",
+    "rules": {
+      "birth": [
+        3,
+        6
+      ],
+      "survive": [
+        2,
+        3
+      ]
+    },
+    "target": 22,
+    "seed": 522554,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  },
+  {
+    "date": "2026-05-05",
+    "gridSize": 10,
+    "initialCells": 12,
+    "maxGenerations": 120,
+    "difficulty": "medium",
+    "rules": {
+      "birth": [
+        3,
+        6
+      ],
+      "survive": [
+        2,
+        3,
+        6
+      ]
+    },
+    "target": 54,
+    "seed": 865173,
+    "createdAt": "2026-04-06T21:25:13.581Z"
+  }
+]

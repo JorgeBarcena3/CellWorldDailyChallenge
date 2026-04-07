@@ -10,10 +10,10 @@ const BASE_URL = () => (window.CELLWORLD_API || 'http://localhost:3000').replace
 // ─── Cache helpers ────────────────────────────────────────────────────────────
 
 const CACHE_KEYS = {
-  config:        'cw_cache_config_v2',
-  texts:         'cw_cache_texts_v2',
-  notifications: 'cw_cache_notifications_v2',
-  leaderboard:   'cw_cache_leaderboard_v2'
+  config:        'cw_cache_config_v3',
+  texts:         'cw_cache_texts_v3',
+  notifications: 'cw_cache_notifications_v3',
+  leaderboard:   'cw_cache_leaderboard_v3'
 };
 const CACHE_TTL_MS = 10 * 60 * 1000;   // 10 minutes
 
@@ -26,12 +26,12 @@ function saveCache(key, data) {
   } catch (_) { /* ignore quota errors */ }
 }
 
-function loadCache(key) {
+function loadCache(key, ignoreExpiry = false) {
   try {
     const raw = localStorage.getItem(key);
     if (!raw) return null;
     const { data, ts } = JSON.parse(raw);
-    if (Date.now() - ts > CACHE_TTL_MS) return null;
+    if (!ignoreExpiry && Date.now() - ts > CACHE_TTL_MS) return null;
     return data;
   } catch (_) {
     return null;
@@ -66,13 +66,32 @@ export async function getConfig(date) {
     const qs  = date ? `?date=${date}` : '';
     const res = await apiFetch(`/config${qs}`);
     if (res.success) {
-      // Opt-out of frontend caching for config, to ensure we always have the freshest settings
+      saveCache(CACHE_KEYS.config, res.data); // Cache today's config too
       return res.data;
     }
     throw new Error('Config fetch failed');
   } catch (err) {
-    console.warn('[API] getConfig failed, using fallback:', err.message);
-    return _defaultConfig();
+    console.warn('[API] getConfig failed, trying local fallback:', err.message);
+    
+    // 1. Try cache (even if stale)
+    const cached = loadCache(CACHE_KEYS.config, true);
+    if (cached && (!date || cached.date === date)) return { ...cached, _fromCache: true };
+
+    // 2. Try fallback JSON
+    try {
+      const localRes = await fetch('./fallback-challenges.json');
+      const challenges = await localRes.json();
+      const today = date || new Date().toISOString().slice(0, 10);
+      const match = challenges.find(c => c.date === today);
+      if (match) return { ...match, _fromFallback: true };
+      
+      // If no date match, just return a random one from the local file
+      const random = challenges[Math.floor(Math.random() * challenges.length)];
+      return { ...random, _fromFallbackRandom: true };
+    } catch (localErr) {
+      console.warn('[API] Local fallback failed:', localErr);
+      return _defaultConfig();
+    }
   }
 }
 
@@ -112,7 +131,22 @@ export async function getTexts(lang = 'es') {
     }
     throw new Error('Texts fetch failed');
   } catch (err) {
-    console.warn('[API] getTexts failed, using fallback:', err.message);
+    console.warn('[API] getTexts failed, trying local fallback:', err.message);
+    
+    // Try stale cache first
+    const stale = loadCache(cacheKey, true);
+    if (stale) return stale;
+
+    // Try local JSON
+    try {
+      const localRes = await fetch(`./fallback-texts-${lang}.json`);
+      if (localRes.ok) {
+        const data = await localRes.json();
+        saveCache(cacheKey, data);
+        return data;
+      }
+    } catch (_) {}
+
     return _defaultTexts(lang);
   }
 }
@@ -133,8 +167,8 @@ export async function getNotifications() {
     }
     throw new Error('Notifications fetch failed');
   } catch (err) {
-    console.warn('[API] getNotifications failed, using fallback:', err.message);
-    return _defaultNotifications();
+    console.warn('[API] getNotifications failed, trying stale cache:', err.message);
+    return loadCache(CACHE_KEYS.notifications, true) || _defaultNotifications();
   }
 }
 
@@ -152,8 +186,8 @@ export async function getLeaderboard(date) {
     }
     throw new Error('Leaderboard fetch failed');
   } catch (err) {
-    console.warn('[API] getLeaderboard failed:', err.message);
-    return loadCache(CACHE_KEYS.leaderboard) || [];
+    console.warn('[API] getLeaderboard failed, using stale cache:', err.message);
+    return loadCache(CACHE_KEYS.leaderboard, true) || [];
   }
 }
 
@@ -216,13 +250,17 @@ function _defaultTexts(lang) {
     },
     tutorial: {
       step1_title: isEs ? 'Activa células'       : 'Activate cells',
-      step1_body:  isEs ? 'Toca las casillas'    : 'Tap the grid squares',
-      step2_title: isEs ? 'Inicia la evolución'  : 'Start evolution',
-      step2_body:  isEs ? 'Pulsa PLAY'           : 'Press PLAY',
+      step1_body:  isEs ? 'Toca las casillas del tablero para activar células' : 'Tap on the grid squares to activate cells',
+      step2_title: isEs ? 'Generaciones'         : 'Generations',
+      step2_body:  isEs ? 'Tienes un número limitado de generaciones antes de que termine el juego' : 'You have a limited number of generations before the game ends',
       step3_title: isEs ? 'Alcanza el objetivo'  : 'Reach the target',
-      step3_body:  isEs ? 'Mantén {{target}} células vivas' : 'Keep {{target}} cells alive',
-      step4_title: isEs ? 'Envía tu puntuación'  : 'Submit your score',
-      step4_body:  isEs ? 'Pulsa ENVIAR SCORE'   : 'Press SUBMIT SCORE',
+      step3_body:  isEs ? 'Alcanza {{target}} células vivas para ganar puntos de bonus' : 'Reach {{target}} alive cells to earn bonus points',
+      step4_title: isEs ? 'Reglas del día'       : 'Rules of the day',
+      step4_body:  isEs ? 'Pulsa INFO para ver cómo nacen y mueren las células hoy' : 'Press INFO to see the birth and survival rules today',
+      step5_title: isEs ? 'Inicia la evolución'  : 'Start evolution',
+      step5_body:  isEs ? 'Pulsa PLAY para que la simulación empiece a correr' : 'Press PLAY to start the simulation loop',
+      step6_title: isEs ? 'Envía tu puntuación'  : 'Submit your score',
+      step6_body:  isEs ? 'Al terminar, pulsa ENVIAR SCORE para el ranking' : 'When finished, press SUBMIT SCORE to enter the ranking',
       next_button:   isEs ? 'Siguiente' : 'Next',
       finish_button: isEs ? 'Empezar'   : 'Start'
     },
